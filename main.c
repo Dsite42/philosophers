@@ -6,89 +6,130 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/06/30 11:09:28 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/07 16:47:22 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
 
-int	is_valid_arguments(t_state *state)
+int	check_number_of_arguments(int argc)
 {
-	if (state->number_of_philosophers <= 0 || state->time_to_die <= 0
-		|| state->time_to_eat <= 0 || state->time_to_sleep <= 0
-		|| state->number_of_times_each_philosopher_must_eat < 0)
+	if (argc < 5 || argc > 6)
 	{
-		printf("No valid input. Please insert positive integers.\n");
+		if (argc < 5)
+			printf("Not enought arguments!\n");
+		else
+			printf("Too many arguments!\n");
 		return (-1);
 	}
 	return (0);
 }
 
-int	init_arguments(t_state *state, int argc, char **argv)
+void	*philo_thread(void *arg)
 {
-	(*state).number_of_philosophers = ft_atoi(argv[1]);
-	(*state).time_to_die = ft_atoi(argv[2]);
-	(*state).time_to_eat = ft_atoi(argv[3]);
-	(*state).time_to_sleep = ft_atoi(argv[4]);
-	if (argc == 6)
-		(*state).number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
-	else
-		(*state).number_of_times_each_philosopher_must_eat = 0;
-	if (is_valid_arguments(state) == -1)
-		return (-1);
-	return (0);
+	t_state	*state;
+
+	state = (t_state *)arg;
+	time_t time_result;
+	while (1)
+	{
+		// Thinking
+		printf("%ld %d is thinking\n", time(&time_result), state->current_philo_id);
+
+		//usleep(state->time_to_think);
+
+		// Acquire forks and start eating
+		printf("%ld %d has taken a fork\n", time(&time_result), state->current_philo_id);
+		// Acquire left fork
+		pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
+		printf("%ld %d has taken a fork\n", time(&time_result), state->current_philo_id);
+		// Acquire right fork
+		pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers]);
+
+		// Eating
+		printf("%ld %d is eating\n", time(&time_result), state->current_philo_id);
+
+		usleep(state->time_to_eat);
+
+		// Release forks after eating
+		// Release right fork
+		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers]);
+		// Release left fork
+		pthread_mutex_unlock(&state->p_forks[state->current_philo_id]);
+
+		// Sleeping
+		printf("%ld %d is sleeping\n", time(&time_result), state->current_philo_id);
+
+		usleep(state->time_to_sleep);
+	}
+	pthread_exit(NULL);
 }
 
-int	init_structs(t_state *state)
+int	wait_for_threads(t_state *state, pthread_t *philo_threads)
 {
 	int	i;
 
-	(*state).p_philosophers = (t_philosopher *)
-		malloc(state->number_of_philosophers * sizeof(t_philosopher));
-	if ((*state).p_philosophers == NULL)
-	{
-		printf("malloc of p_philosophers failed.\n");
-		return (-1);
-	}
-	(*state).p_forks = (t_fork *)
-		malloc(state->number_of_philosophers * sizeof(t_fork));
-	if ((*state).p_forks == NULL)
-	{
-		printf("malloc of p_forks failed.\n");
-		return (-1);
-	}
 	i = 0;
 	while (i < state->number_of_philosophers)
 	{
-		(*state).p_philosophers[i].id = i + 1;
-		(*state).p_forks[i].id = i + 1;
+		if (pthread_join(philo_threads[i], NULL) != 0)
+		{
+			printf("pthread_join failed.\n");
+			return (-1);
+		}
 		i++;
 	}
 	return (0);
 }
 
-int	init(t_state *state, int argc, char **argv)
+int	create_threads(t_state *state, pthread_t *philo_threads)
 {
-	if (init_arguments(state, argc, argv) == -1 || init_structs(state) == -1)
-		return (-1);
+	int	i;
+
+	i = 0;
+	while (i < state->number_of_philosophers)
+	{
+		(*state).current_philo_id = i;
+		if (pthread_create(&philo_threads[i], NULL,
+				(void *(*)(void *))philo_thread, (void *) state) != 0)
+		{
+			printf("pthread_create failed.\n");
+			return (-1);
+		}
+		i++;
+	}
+	return (0);
 }
 
-int main(int argc, char **argv)
+int	init_threads(t_state *state, pthread_t	**philo_threads)
 {
-	t_state state;
-
-	if (argc < 5)
+	*philo_threads = (pthread_t *) malloc(state->number_of_philosophers
+			* sizeof(pthread_t));
+	if (*philo_threads == NULL)
 	{
-		printf("Not enought arguments!\n");
-		return (0);
+		printf("malloc of philo_threads failed.\n");
+		return (-1);
 	}
+	return (0);
+}
+
+int	main(int argc, char **argv)
+{
+	t_state		state;
+	pthread_t	*philo_threads;
+
+
+	if (check_number_of_arguments(argc) == -1)
+		return (-1);
 	if (init(&state, argc, argv) == -1)
 		return (-1);
-	
+
 printf("number_of_philosophers:%i \ntime_to_die:%i \ntime_to_eat:%i \ntime_to_sleep:%i \nnumber_of_times_each_philosopher_must_eat:%i\n", state.number_of_philosophers, state.time_to_die, state.time_to_eat, state.time_to_sleep, state.number_of_times_each_philosopher_must_eat);
-	
+
 	int i = 0;
 	while (i < state.number_of_philosophers)
 	{
@@ -96,7 +137,12 @@ printf("number_of_philosophers:%i \ntime_to_die:%i \ntime_to_eat:%i \ntime_to_sl
 		i++;
 	}
 
-	
-	
+	if (init_threads(&state, &philo_threads) == -1)
+		return (-1);
+	if (create_threads(&state, philo_threads) == -1)
+		return (-1);
+	if (wait_for_threads(&state, philo_threads) == -1)
+		return (-1);
+
 	return (0);
 }

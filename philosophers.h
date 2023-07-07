@@ -6,23 +6,26 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/06/30 10:39:29 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/07 16:17:56 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
+ #include <pthread.h>
 
 typedef struct s_philosopher
 {
 	int	id;
+	int	eat_counter;
 
 }	t_philosopher;
 
 typedef struct s_fork
 {
-	int	id;
+	int				id;
+	pthread_mutex_t	mutex;
 
 }	t_fork;
 
@@ -35,9 +38,13 @@ typedef struct s_state
 	int				number_of_times_each_philosopher_must_eat;
 	t_philosopher	*p_philosophers;
 	t_fork			*p_forks;
+	int				current_philo_id;
 }	t_state;
 
+// init.c
+int	init(t_state *state, int argc, char **argv);
 
+// utils.c
 int	ft_atoi(const char *nprt);
 
 #endif
