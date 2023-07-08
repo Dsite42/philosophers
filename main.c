@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/07 16:47:22 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/08 15:10:53 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <time.h>
+//#include <time.h>
+#include <sys/time.h>
 
 int	check_number_of_arguments(int argc)
 {
@@ -29,40 +30,54 @@ int	check_number_of_arguments(int argc)
 	return (0);
 }
 
+int	print_state_change(char *message, t_state *state)
+{
+	struct timeval *restrict tv;
+
+	tv = (struct timeval *)malloc(sizeof(struct timeval));
+	if (gettimeofday(tv, NULL) == -1)
+	{
+		printf("gettimeofday failed.\n");
+		return (-1);
+	}
+
+
+	printf("%li %i %s\n", tv->tv_usec, state->current_philo_id, message); 
+}
+
 void	*philo_thread(void *arg)
 {
 	t_state	*state;
-
-	state = (t_state *)arg;
-	time_t time_result;
+	
+	state = (t_state *)arg;	
 	while (1)
 	{
 		// Thinking
-		printf("%ld %d is thinking\n", time(&time_result), state->current_philo_id);
+		print_state_change("is thinking", state);
 
 		//usleep(state->time_to_think);
 
 		// Acquire forks and start eating
-		printf("%ld %d has taken a fork\n", time(&time_result), state->current_philo_id);
+		print_state_change("has taken a fork", state);
 		// Acquire left fork
 		pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
-		printf("%ld %d has taken a fork\n", time(&time_result), state->current_philo_id);
+		print_state_change("has taken a fork", state);
 		// Acquire right fork
-		pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers]);
+		pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers].mutex);
 
 		// Eating
-		printf("%ld %d is eating\n", time(&time_result), state->current_philo_id);
+		print_state_change("is eating", state);
 
 		usleep(state->time_to_eat);
 
 		// Release forks after eating
 		// Release right fork
-		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers]);
+		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers].mutex);
 		// Release left fork
-		pthread_mutex_unlock(&state->p_forks[state->current_philo_id]);
+		pthread_mutex_unlock(&state->p_forks[state->current_philo_id].mutex);
 
 		// Sleeping
-		printf("%ld %d is sleeping\n", time(&time_result), state->current_philo_id);
+		print_state_change("is sleeping", state);
 
 		usleep(state->time_to_sleep);
 	}
