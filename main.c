@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/11 18:36:56 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/11 19:09:31 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,33 @@ int	print_state_change(char *message, t_state *state)
 void	*philo_thread(void *arg)
 {
 	t_state	*state;
-	
+
 	state = (t_state *)arg;	
 	while (1)
 	{
 		// Thinking
 		print_state_change("is thinking", state);
-		//sleep(1);
-		print_state_change("Test", state);
-
-
 		//usleep(state->time_to_think);
-	 //Acquire forks and start eating
-		 //Acquire left fork
-		pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
-		print_state_change("has taken a fork", state);
-		// Acquire right fork
-		pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers].mutex);
-		print_state_change("has taken a fork", state);
+		//Acquire forks and start eating
+		if (state->current_philo_id == 0)
+		{
+			// Acquire right fork
+			pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers].mutex);
+			print_state_change("has taken a fork", state);
+			 //Acquire left fork
+			pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
+			print_state_change("has taken a fork", state);
+		}
+		else
+		{
+			 //Acquire left fork
+			pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
+			print_state_change("has taken a fork", state);
+			// Acquire right fork
+			pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers].mutex);
+			print_state_change("has taken a fork", state);
+	
+		}
 		// Eating
 		print_state_change("is eating", state);
 		(*state).p_philosophers[state->current_philo_id].eat_counter++;
@@ -79,7 +88,6 @@ void	*philo_thread(void *arg)
 		print_state_change("is sleeping", state);
 
 		usleep(state->time_to_sleep);
-		printf("philo_id:%i eat_counter:%i\n", state->current_philo_id, state->p_philosophers[state->current_philo_id].eat_counter);
 		printf("philo_id:%i eat_counter:%i\n", state->current_philo_id, state->p_philosophers[state->current_philo_id].eat_counter);
 	}
 	pthread_exit(NULL);
