@@ -6,13 +6,14 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:04:27 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/12 11:24:25 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/12 15:50:39 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 static int	is_valid_arguments(t_state *state)
 {
@@ -44,6 +45,13 @@ static int	init_arguments(t_state *state, int argc, char **argv)
 void	fill_state(t_state *state)
 {	
 	int	i;
+	struct timeval	tv;
+
+	if (gettimeofday(&tv, NULL) == -1)
+	{
+		printf("gettimeofday failed.\n");
+		//return (-1);
+	}
 
 	i = 0;
 	while (i < state->number_of_philosophers)
@@ -52,6 +60,7 @@ void	fill_state(t_state *state)
 		(*state).p_philosophers[i].eat_counter = 0;
 		(*state).p_forks[i].id = i + 1;
 		(*state).current_philo_id = 0;
+		(*state).p_philosophers[i].last_meal = tv.tv_sec * 1000000 + tv.tv_usec;
 		i++;
 	}
 	i = 1;
@@ -107,6 +116,23 @@ static int	init_fork_mutexes(t_state *state)
 	return (0);
 }
 
+static int	init_philo_mutexes(t_state *state)
+{
+	int	i;
+
+	i = 0;
+	while (i < state->number_of_philosophers)
+	{
+		if (pthread_mutex_init(&state->p_philosophers[i].mutex, NULL) != 0)
+		{
+			printf("mutex init failed.\n");
+			return (-1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	init(t_state *state, int argc, char **argv)
 {
 
@@ -114,6 +140,7 @@ int	init(t_state *state, int argc, char **argv)
 		return (-1);
 	if (init_fork_mutexes(state) == -1)
 		return (-1);
-	
+	if (init_philo_mutexes(state) == -1)
+		return (-1);
 	return (1);
 }

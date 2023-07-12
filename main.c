@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/12 14:18:27 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:00:58 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,10 @@ int	print_state_change(char *message, t_state *state)
 
 int	is_death(t_state *state)
 {
-	int i;
-	struct timeval	*restrict tv;
+	int				i;
+	struct timeval	tv;
 
-	tv = (struct timeval *)malloc(sizeof(struct timeval));
-	if (tv == NULL)
-	{
-		printf("malloc of tv failed.\n");
-		return (-1);
-	}
-	if (gettimeofday(tv, NULL) == -1)
+	if (gettimeofday(&tv, NULL) == -1)
 	{
 		printf("gettimeofday failed.\n");
 		return (-1);
@@ -64,15 +58,18 @@ int	is_death(t_state *state)
 	i = 0;
 	while (i < state->number_of_philosophers)
 	{
-		if ((tv->tv_sec * 1000000 + tv->tv_usec) - state->p_philosophers[i].last_meal > (unsigned long)state->time_to_die * 1000 && state->p_philosophers[i].eat_counter != 0)
+		pthread_mutex_lock(&state->p_philosophers[i].mutex);
+		if ((tv.tv_sec * 1000000 + tv.tv_usec) - state[i].p_philosophers[i].last_meal > (unsigned long)state->time_to_die * 1000)
 		{
-			if (state->p_philosophers[i].death_flag == 0)
-			{
-				printf("%li %i died Currend philoid:%i last_meal:%li diff:%li\n", tv->tv_sec * 1000000 + tv->tv_usec, i, state->current_philo_id, state->p_philosophers[i].last_meal, ((tv->tv_sec * 1000000 + tv->tv_usec) - state->p_philosophers[i].last_meal) / 1000);
-				state->p_philosophers[i].death_flag = 1;
-			}
+			//if (state->p_philosophers[i].death_flag == 0)
+			//{
+				printf("%li %i died last_meal:%li diff:%li\n", tv.tv_sec * 1000000 + tv.tv_usec, i, state[i].p_philosophers[i].last_meal, ((tv.tv_sec * 1000000 + tv.tv_usec) - state[i].p_philosophers[i].last_meal) / 1000);
+				state[i].p_philosophers[i].death_flag = 1;
+				pthread_mutex_unlock(&state->p_philosophers[i].mutex);
+			//}
 			return (1);
 		}
+		pthread_mutex_unlock(&state->p_philosophers[i].mutex);
 		i++;
 	}
 	return (0);
@@ -97,22 +94,16 @@ int	is_must_eat_reached(t_state *state)
 void	*philo_thread(void *arg)
 {
 	t_state	*state;
-	struct timeval	*restrict tv;
+	struct timeval	tv;
 
 	state = (t_state *)arg;	
-	tv = (struct timeval *)malloc(sizeof(struct timeval));
-	if (tv == NULL)
-	{
-		printf("malloc of tv failed.\n");
-		//return (-1);
-	}
 
 	while (1)
 	{
-		if(is_death(state) == 1)
-			pthread_exit(NULL);
-		if (state->number_of_times_each_philosopher_must_eat > 0 && is_must_eat_reached(state) == 1)
-			pthread_exit(NULL);
+		//if(is_death(state) == 1)
+		//	pthread_exit(NULL);
+		//if (state->number_of_times_each_philosopher_must_eat > 0 && is_must_eat_reached(state) == 1)
+		//	pthread_exit(NULL);
 		// Thinking
 		print_state_change("is thinking", state);
 		//usleep(state->time_to_think);
@@ -144,13 +135,18 @@ void	*philo_thread(void *arg)
 		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers].mutex);
 		// Release left fork
 		pthread_mutex_unlock(&state->p_forks[state->current_philo_id].mutex);
-		if (gettimeofday(tv, NULL) == -1)
+
+		// Update last_meal
+		pthread_mutex_lock(&state->p_philosophers[state->current_philo_id].mutex);
+		if (gettimeofday(&tv, NULL) == -1)
 		{
 			printf("gettimeofday failed.\n");
 			//return (-1);
 		}
-		(*state).p_philosophers[state->current_philo_id].last_meal = tv->tv_sec * 1000000 + tv->tv_usec;
+		(*state).p_philosophers[state->current_philo_id].last_meal = tv.tv_sec * 1000000 + tv.tv_usec;
 		(*state).p_philosophers[state->current_philo_id].eat_counter++;
+		pthread_mutex_unlock(&state->p_philosophers[state->current_philo_id].mutex);
+
 	// Sleeping
 		print_state_change("is sleeping", state);
 
@@ -238,6 +234,12 @@ printf("number_of_philosophers:%i \ntime_to_die:%i \ntime_to_eat:%i \ntime_to_sl
 		return (-1);
 	if (create_threads(state, philo_threads) == -1)
 		return (-1);
+	while (is_death(state) == 0)
+	{
+		usleep(8000);
+	}
+	exit(0);
+
 	if (wait_for_threads(state, philo_threads) == -1)
 		return (-1);
 
