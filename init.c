@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:04:27 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/12 15:50:39 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:59:49 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	fill_state(t_state *state)
 			= state->number_of_times_each_philosopher_must_eat;
 		state[i].p_philosophers = state->p_philosophers;
 		state[i].p_forks = state->p_forks;
+		state[i].p_print_mutex = state->p_print_mutex;
 		state[i].current_philo_id = i;
 		i++;
 	}
@@ -93,6 +94,13 @@ static int	init_structs(t_state *state)
 	if ((*state).p_forks == NULL)
 	{
 		printf("malloc of p_forks failed.\n");
+		return (-1);
+	}
+	(*state).p_print_mutex = (pthread_mutex_t *)
+		malloc(sizeof(pthread_mutex_t));
+	if ((*state).p_print_mutex == NULL)
+	{
+		printf("malloc of print_mutex failed.\n");
 		return (-1);
 	}
 	fill_state(state);
@@ -133,6 +141,16 @@ static int	init_philo_mutexes(t_state *state)
 	return (0);
 }
 
+static int	init_print_mutex(t_state *state)
+{
+	if (pthread_mutex_init(state->p_print_mutex, NULL) != 0)
+	{
+		printf("mutex init failed.\n");
+		return (-1);
+	}
+	return (0);
+}
+
 int	init(t_state *state, int argc, char **argv)
 {
 
@@ -141,6 +159,8 @@ int	init(t_state *state, int argc, char **argv)
 	if (init_fork_mutexes(state) == -1)
 		return (-1);
 	if (init_philo_mutexes(state) == -1)
+		return (-1);
+	if (init_print_mutex(state) == -1)
 		return (-1);
 	return (1);
 }
