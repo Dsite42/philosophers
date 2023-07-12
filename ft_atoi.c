@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 17:34:40 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/06/29 14:24:57 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:24:31 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // by a single optional '+' or '-' sign.
 // Return: The converted string number as int.
 
-#include "philosophers.h"
+#include "philo.h"
 
 static int	is_spmn(const char *str, int *minus)
 {

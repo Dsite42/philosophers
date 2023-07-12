@@ -6,14 +6,14 @@
 #    By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/18 15:39:27 by cgodecke          #+#    #+#              #
-#    Updated: 2023/07/12 11:20:25 by cgodecke         ###   ########.fr        #
+#    Updated: 2023/07/12 11:23:51 by cgodecke         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CC_FLAGS = -Wall -Wextra -g #-Werror
 OBJDIR = obj
-HEADER := philosophers.h
+HEADER := philo.h
 INFILES = 	main.c\
 			init.c\
 			ft_atoi.c\

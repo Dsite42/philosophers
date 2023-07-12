@@ -6,11 +6,11 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/12 11:19:58 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:24:18 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
