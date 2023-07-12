@@ -6,21 +6,21 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/12 11:24:13 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/12 14:13:07 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
- #include <pthread.h>
+# include <pthread.h>
 
 typedef struct s_philosopher
 {
-	int	id;
-	int	eat_counter;
-	long int	last_meal;
-	int	death_flag;
+	int				id;
+	int				eat_counter;
+	unsigned long	last_meal;
+	int				death_flag;
 
 }	t_philosopher;
 

@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/12 11:45:01 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/12 14:18:27 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	print_state_change(char *message, t_state *state)
 		return (-1);
 	}
 
-	printf("%i %i %s\n", tv->tv_usec, state->current_philo_id, message); 
+	printf("%li%i %i %s\n", tv->tv_sec, tv->tv_usec, state->current_philo_id, message); 
 	return (0);
 }
 
@@ -64,11 +64,11 @@ int	is_death(t_state *state)
 	i = 0;
 	while (i < state->number_of_philosophers)
 	{
-		if (tv->tv_usec - state->p_philosophers[i].last_meal > state->time_to_die && state->p_philosophers[i].eat_counter != 0)
+		if ((tv->tv_sec * 1000000 + tv->tv_usec) - state->p_philosophers[i].last_meal > (unsigned long)state->time_to_die * 1000 && state->p_philosophers[i].eat_counter != 0)
 		{
 			if (state->p_philosophers[i].death_flag == 0)
 			{
-				printf("%i %i died Currend philoid:%i last_meal:%li diff:%li\n", tv->tv_usec, i, state->current_philo_id, state->p_philosophers[i].last_meal, tv->tv_usec - state->p_philosophers[i].last_meal);
+				printf("%li %i died Currend philoid:%i last_meal:%li diff:%li\n", tv->tv_sec * 1000000 + tv->tv_usec, i, state->current_philo_id, state->p_philosophers[i].last_meal, ((tv->tv_sec * 1000000 + tv->tv_usec) - state->p_philosophers[i].last_meal) / 1000);
 				state->p_philosophers[i].death_flag = 1;
 			}
 			return (1);
@@ -138,7 +138,7 @@ void	*philo_thread(void *arg)
 		}
 		// Eating
 		print_state_change("is eating", state);
-		usleep(state->time_to_eat);
+		usleep(state->time_to_eat * 1000);
 	// Release forks after eating
 		// Release right fork
 		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers].mutex);
@@ -149,12 +149,12 @@ void	*philo_thread(void *arg)
 			printf("gettimeofday failed.\n");
 			//return (-1);
 		}
-		(*state).p_philosophers[state->current_philo_id].last_meal = tv->tv_usec;
+		(*state).p_philosophers[state->current_philo_id].last_meal = tv->tv_sec * 1000000 + tv->tv_usec;
 		(*state).p_philosophers[state->current_philo_id].eat_counter++;
 	// Sleeping
 		print_state_change("is sleeping", state);
 
-		usleep(state->time_to_sleep);
+		usleep(state->time_to_sleep * 1000);
 		printf("philo_id:%i eat_counter:%i\n", state->current_philo_id, state->p_philosophers[state->current_philo_id].eat_counter);
 	}
 	pthread_exit(NULL);
