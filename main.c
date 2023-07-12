@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/12 17:00:15 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:30:29 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,14 @@ int	is_death(t_state *state)
 	while (i < state->number_of_philosophers)
 	{
 		pthread_mutex_lock(&state[i].p_philosophers[i].mutex);
-		if ((tv.tv_sec * 1000000 + tv.tv_usec) - state[i].p_philosophers[i].last_meal > (unsigned long)state->time_to_die * 1000)
+		printf("fuck diff:%llu philo_id:%i\n", (((unsigned long long)(tv.tv_sec * 1000000 + tv.tv_usec)) - state[i].p_philosophers[i].last_meal) / 1000, i);
+
+		if ((tv.tv_sec * 1000000 + tv.tv_usec) - state[i].p_philosophers[i].last_meal > (unsigned long long)state->time_to_die * 1000)
 		{
 			//if (state->p_philosophers[i].death_flag == 0)
 			//{
 				pthread_mutex_lock(state->p_print_mutex);
-				printf("%li %i died last_meal:%li diff:%li\n", tv.tv_sec * 1000000 + tv.tv_usec, i, state[i].p_philosophers[i].last_meal, ((tv.tv_sec * 1000000 + tv.tv_usec) - state[i].p_philosophers[i].last_meal) / 1000);
+				printf("%ld %i died last_meal:%llu diff:%llu\n", tv.tv_sec * 1000000 + tv.tv_usec, i, state[i].p_philosophers[i].last_meal, ((tv.tv_sec * 1000000 + tv.tv_usec) - state[i].p_philosophers[i].last_meal) / 1000);
 				state[i].p_philosophers[i].death_flag = 1;
 				pthread_mutex_unlock(&state[i].p_philosophers[i].mutex);
 				exit(0);
@@ -147,7 +149,7 @@ void	*philo_thread(void *arg)
 			printf("gettimeofday failed.\n");
 			//return (-1);
 		}
-		(*state).p_philosophers[state->current_philo_id].last_meal = tv.tv_sec * 1000000 + tv.tv_usec;
+		(*state).p_philosophers[state->current_philo_id].last_meal = (unsigned long long)(tv.tv_sec * 1000000 + tv.tv_usec);
 		(*state).p_philosophers[state->current_philo_id].eat_counter++;
 		pthread_mutex_unlock(&state->p_philosophers[state->current_philo_id].mutex);
 
@@ -229,7 +231,7 @@ printf("number_of_philosophers:%i \ntime_to_die:%i \ntime_to_eat:%i \ntime_to_sl
 	int i = 0;
 	while (i < state->number_of_philosophers)
 	{
-		printf("phili_id:%i time:%lu\n", state[i].p_philosophers[i].id, state[i].p_philosophers[i].last_meal);
+		printf("phili_id:%i time:%llu\n", state[i].p_philosophers[i].id, state[i].p_philosophers[i].last_meal);
 		i++;
 	}
 	//printf("philoIDDD:%i\n", state[1].current_philo_id);
