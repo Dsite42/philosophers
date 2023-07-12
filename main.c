@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/12 11:24:18 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:45:01 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,22 @@ int	is_death(t_state *state)
 	return (0);
 }
 
+int	is_must_eat_reached(t_state *state)
+{
+	int	i;
+
+	i = 0;
+	while (i < state->number_of_philosophers)
+	{
+		if (state->p_philosophers[i].eat_counter 
+			< state->number_of_times_each_philosopher_must_eat)
+			return (0);
+		i++;
+	}
+	printf("All philosophers ate at least %i times.\n", state->number_of_times_each_philosopher_must_eat);
+	return (1);
+}
+
 void	*philo_thread(void *arg)
 {
 	t_state	*state;
@@ -94,6 +110,8 @@ void	*philo_thread(void *arg)
 	while (1)
 	{
 		if(is_death(state) == 1)
+			pthread_exit(NULL);
+		if (state->number_of_times_each_philosopher_must_eat > 0 && is_must_eat_reached(state) == 1)
 			pthread_exit(NULL);
 		// Thinking
 		print_state_change("is thinking", state);
@@ -121,6 +139,11 @@ void	*philo_thread(void *arg)
 		// Eating
 		print_state_change("is eating", state);
 		usleep(state->time_to_eat);
+	// Release forks after eating
+		// Release right fork
+		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers].mutex);
+		// Release left fork
+		pthread_mutex_unlock(&state->p_forks[state->current_philo_id].mutex);
 		if (gettimeofday(tv, NULL) == -1)
 		{
 			printf("gettimeofday failed.\n");
@@ -128,11 +151,6 @@ void	*philo_thread(void *arg)
 		}
 		(*state).p_philosophers[state->current_philo_id].last_meal = tv->tv_usec;
 		(*state).p_philosophers[state->current_philo_id].eat_counter++;
-	// Release forks after eating
-		// Release right fork
-		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers].mutex);
-		// Release left fork
-		pthread_mutex_unlock(&state->p_forks[state->current_philo_id].mutex);
 	// Sleeping
 		print_state_change("is sleeping", state);
 
