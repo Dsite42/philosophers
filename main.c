@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/11 19:59:00 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:19:58 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_number_of_arguments(int argc)
 
 int	print_state_change(char *message, t_state *state)
 {
-	struct timeval *restrict tv;
+	struct timeval	*restrict tv;
 
 	tv = (struct timeval *)malloc(sizeof(struct timeval));
 	if (gettimeofday(tv, NULL) == -1)
@@ -41,8 +41,8 @@ int	print_state_change(char *message, t_state *state)
 		return (-1);
 	}
 
-
-	printf("%li %i %s\n", tv->tv_usec, state->current_philo_id, message); 
+	printf("%i %i %s\n", tv->tv_usec, state->current_philo_id, message); 
+	return (0);
 }
 
 int	is_death(t_state *state)
@@ -68,7 +68,7 @@ int	is_death(t_state *state)
 		{
 			if (state->p_philosophers[i].death_flag == 0)
 			{
-				printf("%li %i died Currend philoid:%i last_meal:%li diff:%li\n", tv->tv_usec, i, state->current_philo_id, state->p_philosophers[i].last_meal, tv->tv_usec - state->p_philosophers[i].last_meal);
+				printf("%i %i died Currend philoid:%i last_meal:%li diff:%li\n", tv->tv_usec, i, state->current_philo_id, state->p_philosophers[i].last_meal, tv->tv_usec - state->p_philosophers[i].last_meal);
 				state->p_philosophers[i].death_flag = 1;
 			}
 			return (1);

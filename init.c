@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:04:27 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/11 18:35:16 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:19:20 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	fill_state(t_state *state)
 
 static int	init_structs(t_state *state)
 {
-	int	i;
-
 	(*state).p_philosophers = (t_philosopher *)
 		malloc((state->number_of_philosophers) * sizeof(t_philosopher));
 	if ((*state).p_philosophers == NULL)
