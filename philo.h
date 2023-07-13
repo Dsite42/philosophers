@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/12 17:29:15 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/13 13:32:18 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef struct s_philosopher
 {
 	int				id;
 	int				eat_counter;
-	unsigned long long	last_meal;
+	long long	last_meal;
 	int				death_flag;
 	pthread_mutex_t	mutex;
 
