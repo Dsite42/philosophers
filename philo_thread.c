@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/13 14:28:36 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:22:13 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,17 @@ void	*philo_thread(void *arg)
 	struct timeval	tv;
 
 	state = (t_state *)arg;
+
+	gettimeofday(&tv, NULL);
+	long long philo_thread_diff = (long long)((long long)((long long)tv.tv_sec * (long long)1000000 + (long long)tv.tv_usec) - state->p_philosophers[state->current_philo_id].last_meal);
+	printf("time:%ld%i last_meal:%lld philo_thread_diff:%lld phili_id:%i\n", tv.tv_sec, tv.tv_usec, state->p_philosophers[state->current_philo_id].last_meal, philo_thread_diff, state->current_philo_id + 1);
+	//pthread_exit(NULL);
+	if (philo_thread_diff < 100)
+		usleep(philo_thread_diff * 3100);
+
+	//usleep(state->current_philo_id * 30000);
+	//usleep(state->current_philo_id * 100);
+
 	while (1)
 	{
 		//if (state->number_of_times_each_philosopher_must_eat > 0 && is_must_eat_reached(state) == 1)
