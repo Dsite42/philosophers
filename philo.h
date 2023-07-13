@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/13 13:32:18 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/13 14:34:07 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef struct s_philosopher
 {
 	int				id;
 	int				eat_counter;
-	long long	last_meal;
+	long long		last_meal;
 	int				death_flag;
 	pthread_mutex_t	mutex;
 
@@ -46,9 +46,17 @@ typedef struct s_state
 }	t_state;
 
 // init.c
-int	init(t_state *state, int argc, char **argv);
+int		init(t_state *state, int argc, char **argv);
 
 // utils.c
-int	ft_atoi(const char *nprt);
+int		ft_atoi(const char *nprt);
+
+// philo.c
+void	*philo_thread(void *arg);
+
+// threads.c
+int		init_threads(t_state *state, pthread_t	**philo_threads);
+int		create_threads(t_state *state, pthread_t *philo_threads);
+int		wait_for_threads(t_state *state, pthread_t *philo_threads);
 
 #endif

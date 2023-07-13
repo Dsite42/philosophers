@@ -6,7 +6,7 @@
 #    By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/18 15:39:27 by cgodecke          #+#    #+#              #
-#    Updated: 2023/07/13 13:54:12 by cgodecke         ###   ########.fr        #
+#    Updated: 2023/07/13 14:33:01 by cgodecke         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ HEADER := philo.h
 INFILES = 	main.c\
 			init.c\
 			ft_atoi.c\
+			philo_thread.c\
+			threads.c\
 
 OBJFILES = $(INFILES:%.c=$(OBJDIR)/%.o)
 
