@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/14 12:04:12 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:07:13 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ int	is_death(t_state *state)
 	while (i < state->number_of_philosophers)
 	{
 		pthread_mutex_lock(&state[i].p_philosophers[i].mutex);
+		gettimeofday(&tv, NULL);
+		//printf("scheißdiff:%i\n", ((long long)tv.tv_sec * (long long)1000000 + (long long)tv.tv_usec) - state[i].p_philosophers[i].last_meal > (long long)state->time_to_die * (long long)1000);
 		//printf("fuck diff:%llu philo_id:%i test:%ld %i\n", (((long long)tv.tv_sec * 1000000LL + (long long)tv.tv_usec) - state[i].p_philosophers[i].last_meal) / 1000LL, i, tv.tv_sec, tv.tv_usec);
-		if (((long long)tv.tv_sec * 1000000LL + (long long)tv.tv_usec) - state[i].p_philosophers[i].last_meal > (long long)state->time_to_die * 1000LL)
+		if (((long long)tv.tv_sec * (long long)1000000 + (long long)tv.tv_usec) - state[i].p_philosophers[i].last_meal > (long long)state->time_to_die * (long long)1000)
 		{
 			pthread_mutex_lock(state->p_print_mutex);
 			printf("%ld%i philo_id:%i died last_meal:%llu diff:%llu\n", tv.tv_sec, tv.tv_usec, state[i].p_philosophers[i].id, state[i].p_philosophers[i].last_meal, (long long)((long long)((long long)tv.tv_sec * (long long)1000000 + (long long)tv.tv_usec) - state[i].p_philosophers[i].last_meal) / (long long)1000);
