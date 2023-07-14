@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/14 09:32:36 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/14 09:43:48 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ void	*philo_thread(void *arg)
 
 	gettimeofday(&tv, NULL);
 	long long philo_thread_diff = (long long)((long long)((long long)tv.tv_sec * (long long)1000000 + (long long)tv.tv_usec) - state->p_philosophers[state->current_philo_id].last_meal);
-	printf("time:%ld%i last_meal:%lld philo_thread_diff:%lld phili_id:%i\n", tv.tv_sec, tv.tv_usec, state->p_philosophers[state->current_philo_id].last_meal, philo_thread_diff, state->current_philo_id + 1);
-	//pthread_exit(NULL);
+	//printf("time:%ld%i last_meal:%lld philo_thread_diff:%lld phili_id:%i\n", tv.tv_sec, tv.tv_usec, state->p_philosophers[state->current_philo_id].last_meal, philo_thread_diff, state->current_philo_id + 1);
 	if (philo_thread_diff < 100)
 		usleep(philo_thread_diff * 3100);
 

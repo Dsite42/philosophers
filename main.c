@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/14 09:40:45 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/14 09:45:58 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ int	is_death(t_state *state)
 			//exit(0);
 			return (1);
 		}
-		if (state[i].p_philosophers[i].eat_counter < state->number_of_times_each_philosopher_must_eat)
+		if (state->number_of_times_each_philosopher_must_eat != 0 && state[i].p_philosophers[i].eat_counter < state->number_of_times_each_philosopher_must_eat)
 			all_must_eat_reached = 0;
 		pthread_mutex_unlock(&state[i].p_philosophers[i].mutex);
 		i++;
 	}
-	if (all_must_eat_reached == 1)
+	if (state->number_of_times_each_philosopher_must_eat != 0 && all_must_eat_reached == 1)
 	{
 		pthread_mutex_lock(state->p_print_mutex);
 		printf("All philosophers ate at least %i times. philo1:%i philo2:%i philo3:%i philo4:%i philo5:%i\n", state->number_of_times_each_philosopher_must_eat, state->p_philosophers[0].eat_counter, state->p_philosophers[1].eat_counter, state->p_philosophers[2].eat_counter, state->p_philosophers[3].eat_counter, state->p_philosophers[4].eat_counter);
@@ -87,6 +87,7 @@ int	main(int argc, char **argv)
 	}
 	if (init(state, argc, argv) == -1)
 		return (-1);
+	/*
 	printf("number_of_philosophers:%i \ntime_to_die:%i \ntime_to_eat:%i \ntime_to_sleep:%i \nnumber_of_times_each_philosopher_must_eat:%i\n", state->number_of_philosophers, state->time_to_die, state->time_to_eat, state->time_to_sleep, state->number_of_times_each_philosopher_must_eat);
 	int i = 0;
 	while (i < state->number_of_philosophers)
@@ -94,7 +95,7 @@ int	main(int argc, char **argv)
 		printf("phili_id:%i time:%llu\n", state[i].p_philosophers[i].id, state[i].p_philosophers[i].last_meal);
 		i++;
 	}
-
+	*/
 	if (init_threads(state, &philo_threads) == -1)
 		return (-1);
 	if (create_threads(state, philo_threads) == -1)
