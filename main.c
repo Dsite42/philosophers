@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/13 14:45:19 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/14 09:33:36 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	is_death(t_state *state)
 {
 	int				i;
 	struct timeval	tv;
+	int				all_must_eat_reached;
 
 	if (gettimeofday(&tv, NULL) == -1)
 	{
@@ -55,8 +56,18 @@ int	is_death(t_state *state)
 			//exit(0);
 			return (1);
 		}
+		if (state[i].p_philosophers[i].eat_counter >= state->number_of_times_each_philosopher_must_eat)
+			all_must_eat_reached = 1;
+		else
+			all_must_eat_reached = 0;
 		pthread_mutex_unlock(&state[i].p_philosophers[i].mutex);
 		i++;
+	}
+	if (all_must_eat_reached == 1)
+	{
+		pthread_mutex_lock(state->p_print_mutex);
+		printf("All philosophers ate at least %i times.\n", state->number_of_times_each_philosopher_must_eat);
+		return (1);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/13 14:34:07 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/14 09:34:14 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ void	*philo_thread(void *arg);
 int		init_threads(t_state *state, pthread_t	**philo_threads);
 int		create_threads(t_state *state, pthread_t *philo_threads);
 int		wait_for_threads(t_state *state, pthread_t *philo_threads);
+
 
 #endif

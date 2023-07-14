@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/13 18:22:13 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/14 09:32:36 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	*philo_thread(void *arg)
 		usleep(philo_thread_diff * 3100);
 
 	//usleep(state->current_philo_id * 30000);
-	//usleep(state->current_philo_id * 100);
+	//usleep(state->current_philo_id * 2);
 
 	while (1)
 	{
