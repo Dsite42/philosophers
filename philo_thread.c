@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/14 09:43:48 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/14 12:02:42 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,15 @@
 
 static int	print_state_change(char *message, t_state *state)
 {
-	struct timeval	*restrict tv;
+	struct timeval	tv;
 
-	tv = (struct timeval *)malloc(sizeof(struct timeval));
 	pthread_mutex_lock(state->p_print_mutex);
-	if (gettimeofday(tv, NULL) == -1)
+	if (gettimeofday(&tv, NULL) == -1)
 	{
 		printf("gettimeofday failed.\n");
 		return (-1);
 	}
-	printf("%li%i %i %s\n", tv->tv_sec, tv->tv_usec,
+	printf("%li%i %i %s\n", tv.tv_sec, tv.tv_usec,
 		state->current_philo_id, message);
 	pthread_mutex_unlock(state->p_print_mutex);
 	return (0);

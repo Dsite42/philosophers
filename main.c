@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/14 09:45:58 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/14 12:04:12 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,24 @@ int	is_death(t_state *state)
 	return (0);
 }
 
+void	deinit_structs(t_state *state)
+{
+	int	i;
+
+	i = 0;
+	while (i < state->number_of_philosophers)
+	{
+		pthread_mutex_destroy(&state->p_philosophers[i].mutex);
+		pthread_mutex_destroy(&state->p_forks[i].mutex);
+		i++;
+	}
+	pthread_mutex_destroy(state->p_print_mutex);
+	free(state->p_philosophers);
+	free(state->p_forks);
+	free(state->p_print_mutex);
+	free(state);
+}
+
 int	main(int argc, char **argv)
 {
 	t_state		*state;
@@ -104,8 +122,10 @@ int	main(int argc, char **argv)
 	{
 		usleep(9000);
 	}
-	exit(0);
-
+	//exit(0);
+	deinit_structs(state);
+	free(philo_threads);
+	return (0);
 	if (wait_for_threads(state, philo_threads) == -1)
 		return (-1);
 	return (0);
