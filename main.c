@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/14 09:33:36 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/14 09:40:45 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	is_death(t_state *state)
 	struct timeval	tv;
 	int				all_must_eat_reached;
 
+	all_must_eat_reached = 1;
 	if (gettimeofday(&tv, NULL) == -1)
 	{
 		printf("gettimeofday failed.\n");
@@ -56,9 +57,7 @@ int	is_death(t_state *state)
 			//exit(0);
 			return (1);
 		}
-		if (state[i].p_philosophers[i].eat_counter >= state->number_of_times_each_philosopher_must_eat)
-			all_must_eat_reached = 1;
-		else
+		if (state[i].p_philosophers[i].eat_counter < state->number_of_times_each_philosopher_must_eat)
 			all_must_eat_reached = 0;
 		pthread_mutex_unlock(&state[i].p_philosophers[i].mutex);
 		i++;
@@ -66,26 +65,10 @@ int	is_death(t_state *state)
 	if (all_must_eat_reached == 1)
 	{
 		pthread_mutex_lock(state->p_print_mutex);
-		printf("All philosophers ate at least %i times.\n", state->number_of_times_each_philosopher_must_eat);
+		printf("All philosophers ate at least %i times. philo1:%i philo2:%i philo3:%i philo4:%i philo5:%i\n", state->number_of_times_each_philosopher_must_eat, state->p_philosophers[0].eat_counter, state->p_philosophers[1].eat_counter, state->p_philosophers[2].eat_counter, state->p_philosophers[3].eat_counter, state->p_philosophers[4].eat_counter);
 		return (1);
 	}
 	return (0);
-}
-
-int	is_must_eat_reached(t_state *state)
-{
-	int	i;
-
-	i = 0;
-	while (i < state->number_of_philosophers)
-	{
-		if (state->p_philosophers[i].eat_counter 
-			< state->number_of_times_each_philosopher_must_eat)
-			return (0);
-		i++;
-	}
-	printf("All philosophers ate at least %i times.\n", state->number_of_times_each_philosopher_must_eat);
-	return (1);
 }
 
 int	main(int argc, char **argv)
