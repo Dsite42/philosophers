@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/14 09:34:14 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/17 11:28:12 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_state
 	t_fork			*p_forks;
 	pthread_mutex_t	*p_print_mutex;
 	int				current_philo_id;
+	long long		start_time;
 }	t_state;
 
 // init.c
