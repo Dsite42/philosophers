@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:54:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/17 17:30:46 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:55:37 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,10 @@
 #include <sys/time.h>
 #include <stdio.h>
 
-//void	fill_further_states()
-//{
-//
-//}
-
-void	fill_state(t_state *state)
+void	fill_further_states(t_state *state)
 {
-	int				i;
-	struct timeval	tv;
+	int	i;
 
-	if (gettimeofday(&tv, NULL) == -1)
-	{
-		printf("gettimeofday failed.\n");
-		//return (-1);
-	}
-
-	i = 0;
-	while (i < state->number_of_philosophers)
-	{
-		(*state).p_philosophers[i].id = i + 1;
-		(*state).p_philosophers[i].eat_counter = 0;
-		(*state).p_forks[i].id = i + 1;
-		(*state).current_philo_id = 0;
-		(*state).start_time = (long long)tv.tv_sec * (long long)1000000 + (long long)tv.tv_usec;
-		(*state).p_philosophers[i].last_meal = state->start_time;
-		i++;
-	}
 	i = 1;
 	while (i < state->number_of_philosophers)
 	{
@@ -57,4 +34,29 @@ void	fill_state(t_state *state)
 		state[i].start_time = state->start_time;
 		i++;
 	}
+}
+
+void	fill_state(t_state *state)
+{
+	int				i;
+	struct timeval	tv;
+
+	if (gettimeofday(&tv, NULL) == -1)
+	{
+		printf("gettimeofday failed.\n");
+		//return (-1);
+	}
+	i = 0;
+	while (i < state->number_of_philosophers)
+	{
+		(*state).p_philosophers[i].id = i + 1;
+		(*state).p_philosophers[i].eat_counter = 0;
+		(*state).p_forks[i].id = i + 1;
+		(*state).current_philo_id = 0;
+		(*state).start_time = (long long)tv.tv_sec
+			* (long long)1000000 + (long long)tv.tv_usec;
+		(*state).p_philosophers[i].last_meal = state->start_time;
+		i++;
+	}
+	fill_further_states(state);
 }

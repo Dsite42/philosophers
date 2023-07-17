@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/17 16:55:54 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:52:02 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ void	ft_wait(long time_to_sleep);
 void	fill_state(t_state *state);
 
 // init_arguments.c
-int	init_arguments(t_state *state, int argc, char **argv);
+int		init_arguments(t_state *state, int argc, char **argv);
 
 #endif
