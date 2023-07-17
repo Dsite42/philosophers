@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/17 12:19:40 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:46:20 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,29 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+void	ft_wait(long time_to_sleep)
+{
+	struct timeval	tv;
+	long long		time_current;
+	long long		time_begin;
+
+	gettimeofday(&tv, NULL);
+	time_begin = (long long)tv.tv_sec 
+		* (long long)1000000 + (long long)tv.tv_usec;
+	time_current = time_begin;
+	while (time_current - time_begin < time_to_sleep)
+	{
+		usleep(20);
+		gettimeofday(&tv, NULL);
+		time_current = (long long)tv.tv_sec 
+			* (long long)1000000 + (long long)tv.tv_usec;
+	}
+}
+
 static int	print_state_change(char *message, t_state *state)
 {
 	struct timeval	tv;
-	long long time_stamp;
+	long long		time_stamp;
 
 	pthread_mutex_lock(state->p_print_mutex);
 	if (gettimeofday(&tv, NULL) == -1)
@@ -27,7 +46,8 @@ static int	print_state_change(char *message, t_state *state)
 		printf("gettimeofday failed.\n");
 		return (-1);
 	}
-	time_stamp = (long long)tv.tv_sec * (long long)1000000 + (long long)tv.tv_usec - state->start_time;
+	time_stamp = (long long)tv.tv_sec 
+		* (long long)1000000 + (long long)tv.tv_usec - state->start_time;
 	printf("%lli %i %s\n", time_stamp / 1000,
 		state->current_philo_id, message);
 	pthread_mutex_unlock(state->p_print_mutex);
@@ -93,7 +113,8 @@ void	*philo_thread(void *arg)
 		(*state).p_philosophers[state->current_philo_id].eat_counter++;
 		pthread_mutex_unlock(&state->p_philosophers[state->current_philo_id].mutex);
 		print_state_change("is eating", state);
-		usleep(state->time_to_eat * 1000);
+		//usleep(state->time_to_eat * 1000);
+		ft_wait(state->time_to_eat * 1000);
 
 		// Release forks after eating
 		// Release right fork
@@ -105,7 +126,8 @@ void	*philo_thread(void *arg)
 
 		// Sleeping
 		print_state_change("is sleeping", state);
-		usleep(state->time_to_sleep * 1000);
+		//usleep(state->time_to_sleep * 1000);
+		ft_wait(state->time_to_sleep * 1000);
 		//printf("philo_id:%i eat_counter:%i\n", state->current_philo_id, state->p_philosophers[state->current_philo_id].eat_counter);
 	}
 	pthread_exit(NULL);
