@@ -6,7 +6,7 @@
 #    By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/18 15:39:27 by cgodecke          #+#    #+#              #
-#    Updated: 2023/07/14 11:25:43 by cgodecke         ###   ########.fr        #
+#    Updated: 2023/07/17 17:21:20 by cgodecke         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,13 @@ OBJDIR = obj
 HEADER := philo.h
 INFILES = 	main.c\
 			init.c\
+			init_arguments.c\
+			fill_state.c\
 			ft_atoi.c\
+			ft_wait.c\
 			philo_thread.c\
 			threads.c\
+
 
 OBJFILES = $(INFILES:%.c=$(OBJDIR)/%.o)
 

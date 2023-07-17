@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/17 11:28:12 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:55:54 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,13 @@ int		init_threads(t_state *state, pthread_t	**philo_threads);
 int		create_threads(t_state *state, pthread_t *philo_threads);
 int		wait_for_threads(t_state *state, pthread_t *philo_threads);
 
+// ft_wait.c
+void	ft_wait(long time_to_sleep);
+
+// fill_state.c
+void	fill_state(t_state *state);
+
+// init_arguments.c
+int	init_arguments(t_state *state, int argc, char **argv);
 
 #endif

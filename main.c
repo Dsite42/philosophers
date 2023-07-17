@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/17 11:54:47 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:45:45 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	main(int argc, char **argv)
 		return (-1);
 	while (is_death(state) == 0)
 	{
-		usleep(9000);
+		ft_wait(9000);
 	}
 	//exit(0);
 	deinit_structs(state);
