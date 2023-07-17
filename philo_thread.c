@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/17 11:42:16 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/17 12:19:40 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,19 @@ void	*philo_thread(void *arg)
 		if (state->current_philo_id == 0)
 		{
 			// Acquire right fork
-			pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers].mutex);
+			pthread_mutex_lock(&state->p_forks[(state->current_philo_id+2) % state->number_of_philosophers].mutex);
 			print_state_change("has taken a fork", state);
 			 //Acquire left fork
-			pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
+			pthread_mutex_lock(&state->p_forks[state->current_philo_id+1].mutex);
 			print_state_change("has taken a fork", state);
 		}
 		else
 		{
 			 //Acquire left fork
-			pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
+			pthread_mutex_lock(&state->p_forks[state->current_philo_id+1].mutex);
 			print_state_change("has taken a fork", state);
 			// Acquire right fork
-			pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1) % state->number_of_philosophers].mutex);
+			pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 2) % state->number_of_philosophers].mutex);
 			print_state_change("has taken a fork", state);
 		}
 		// Eating
