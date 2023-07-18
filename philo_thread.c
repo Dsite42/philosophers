@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/17 17:41:33 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:00:51 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,8 @@ static int	print_state_change(char *message, t_state *state)
 	long long		time_stamp;
 
 	pthread_mutex_lock(state->p_print_mutex);
-	if (gettimeofday(&tv, NULL) == -1)
-	{
-		printf("gettimeofday failed.\n");
+	if (get_time(&tv) == -1)
 		return (-1);
-	}
 	time_stamp = (long long)tv.tv_sec 
 		* (long long)1000000 + (long long)tv.tv_usec - state->start_time;
 	printf("%lli %i %s\n", time_stamp / 1000,
@@ -61,7 +58,7 @@ void	eating(t_state *state)
 	struct timeval	tv;
 
 	pthread_mutex_lock(&state->p_philosophers[state->current_philo_id].mutex);
-	gettimeofday(&tv, NULL);
+	get_time(&tv); // error check
 	(*state).p_philosophers[state->current_philo_id].last_meal
 		= (long long)tv.tv_sec * (long long)1000000 + (long long)tv.tv_usec;
 	(*state).p_philosophers[state->current_philo_id].eat_counter++;

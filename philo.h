@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/17 17:52:02 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:11:49 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILO_H
 
 # include <pthread.h>
+# include <sys/time.h>
 
 typedef struct s_philosopher
 {
@@ -68,5 +69,11 @@ void	fill_state(t_state *state);
 
 // init_arguments.c
 int		init_arguments(t_state *state, int argc, char **argv);
+
+// get_time.c
+int		get_time(struct timeval *tv);
+
+// is_program_end.c
+int	is_program_end(t_state *state);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:54:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/17 17:55:37 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:17:10 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,8 @@ void	fill_state(t_state *state)
 	int				i;
 	struct timeval	tv;
 
-	if (gettimeofday(&tv, NULL) == -1)
-	{
-		printf("gettimeofday failed.\n");
-		//return (-1);
-	}
+	if (gettime(&tv) == -1)
+		return (-1);
 	i = 0;
 	while (i < state->number_of_philosophers)
 	{

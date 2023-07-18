@@ -6,12 +6,12 @@
 #    By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/18 15:39:27 by cgodecke          #+#    #+#              #
-#    Updated: 2023/07/17 17:21:20 by cgodecke         ###   ########.fr        #
+#    Updated: 2023/07/18 14:11:55 by cgodecke         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CC_FLAGS = -Wall -Wextra -g #-fsanitize=address #-fsanitize=thread #-Werror
+CC_FLAGS = -Wall -Wextra -g -fsanitize=thread #-fsanitize=address #-Werror
 OBJDIR = obj
 HEADER := philo.h
 INFILES = 	main.c\
@@ -22,6 +22,8 @@ INFILES = 	main.c\
 			ft_wait.c\
 			philo_thread.c\
 			threads.c\
+			get_time.c\
+			is_program_end.c\
 
 
 OBJFILES = $(INFILES:%.c=$(OBJDIR)/%.o)
