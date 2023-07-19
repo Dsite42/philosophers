@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/18 13:00:51 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:21:24 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	*philo_thread(void *arg)
 	t_state			*state;
 
 	state = (t_state *)arg;
+	usleep(state->current_philo_id * 100);
 	while (1)
 	{
 		print_state_change("is thinking", state);

@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/18 14:14:52 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:59:07 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,18 @@ void	deinit_structs(t_state *state)
 	free(state);
 }
 
+static void	detach_threads(t_state *state, pthread_t *philo_threads)
+{
+	int	i;
+
+	i = 0;
+	while (i < state->number_of_philosophers)
+	{
+		pthread_detach(philo_threads[i]);
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_state		*state;
@@ -68,7 +80,7 @@ int	main(int argc, char **argv)
 	{
 		ft_wait(9000);
 	}
-	//exit(0);
+	detach_threads(state, philo_threads);
 	deinit_structs(state);
 	free(philo_threads);
 	return (0);

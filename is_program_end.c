@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:10:58 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/18 14:13:18 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:34:10 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	is_program_end(t_state *state)
 
 	must_eat_reached = 1;
 	i = 0;
-	is_dead(state, &tv, &must_eat_reached, i);
+	if (is_dead(state, &tv, &must_eat_reached, i) == 1)
+		return (1);
 	if (is_must_eat_reached(state, &must_eat_reached) == 1)
 		return (1);
 	return (0);
