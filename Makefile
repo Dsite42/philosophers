@@ -6,7 +6,7 @@
 #    By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/18 15:39:27 by cgodecke          #+#    #+#              #
-#    Updated: 2023/07/19 14:27:45 by cgodecke         ###   ########.fr        #
+#    Updated: 2023/07/19 15:01:46 by cgodecke         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ INFILES = 	main.c\
 			ft_wait.c\
 			philo_thread.c\
 			threads.c\
-			get_time.c\
 			is_program_end.c\
 
 

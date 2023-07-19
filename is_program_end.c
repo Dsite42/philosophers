@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:10:58 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/19 11:13:48 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:01:00 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	is_dead(t_state *state, struct timeval *tv, int *must_eat_reached, in
 	while (i < state->number_of_philosophers)
 	{
 		pthread_mutex_lock(&state[i].p_philosophers[i].mutex);
-		get_time(tv);
+		gettimeofday(tv, NULL);
 		if (((long long)tv->tv_sec * 1000000LL + (long long)tv->tv_usec)
 			- state[i].p_philosophers[i].last_meal
 			> (long long)state->time_to_die * (long long)1000)
