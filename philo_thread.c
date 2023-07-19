@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/18 14:21:24 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/19 14:26:27 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	eating(t_state *state)
 	struct timeval	tv;
 
 	pthread_mutex_lock(&state->p_philosophers[state->current_philo_id].mutex);
-	get_time(&tv); // error check
+	get_time(&tv);
 	(*state).p_philosophers[state->current_philo_id].last_meal
 		= (long long)tv.tv_sec * (long long)1000000 + (long long)tv.tv_usec;
 	(*state).p_philosophers[state->current_philo_id].eat_counter++;

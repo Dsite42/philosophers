@@ -4,7 +4,7 @@ for i in {1..10}
 do
    echo "Execution $i:"
    
-   ./philo 4 410 200 200 >out$i &
+   ./philo-sh 4 410 200 200 >out$i &
    PHIL_PID=$!
 
    {
