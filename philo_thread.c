@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/19 15:01:23 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:30:55 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ static void	eating(t_state *state)
 {
 	struct timeval	tv;
 
-	pthread_mutex_lock(&state->p_philosophers[state->current_philo_id].mutex);
+	pthread_mutex_lock(&state->p_philos[state->current_philo_id].mutex);
 	gettimeofday(&tv, NULL);
-	(*state).p_philosophers[state->current_philo_id].last_meal
+	(*state).p_philos[state->current_philo_id].last_meal
 		= (long long)tv.tv_sec * (long long)1000000 + (long long)tv.tv_usec;
-	(*state).p_philosophers[state->current_philo_id].eat_counter++;
-	pthread_mutex_unlock(&state->p_philosophers[state->current_philo_id].mutex);
+	(*state).p_philos[state->current_philo_id].eat_counter++;
+	pthread_mutex_unlock(&state->p_philos[state->current_philo_id].mutex);
 	print_state_change("is eating", state);
 	ft_wait(state->time_to_eat * 1000);
 }

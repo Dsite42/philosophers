@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/19 15:01:14 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:30:55 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_state
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				number_of_times_each_philosopher_must_eat;
-	t_philosopher	*p_philosophers;
+	t_philosopher	*p_philos;
 	t_fork			*p_forks;
 	pthread_mutex_t	*p_print_mutex;
 	int				current_philo_id;

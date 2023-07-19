@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:04:27 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/18 14:19:41 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:30:55 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 
 static int	init_structs(t_state *state)
 {
-	(*state).p_philosophers = (t_philosopher *)
+	(*state).p_philos = (t_philosopher *)
 		malloc((state->number_of_philosophers) * sizeof(t_philosopher));
-	if ((*state).p_philosophers == NULL)
+	if ((*state).p_philos == NULL)
 	{
-		printf("malloc of p_philosophers failed.\n");
+		printf("malloc of p_philos failed.\n");
 		return (-1);
 	}
 	(*state).p_forks = (t_fork *)
@@ -66,7 +66,7 @@ static int	init_philo_mutexes(t_state *state)
 	i = 0;
 	while (i < state->number_of_philosophers)
 	{
-		if (pthread_mutex_init(&state->p_philosophers[i].mutex, NULL) != 0)
+		if (pthread_mutex_init(&state->p_philos[i].mutex, NULL) != 0)
 		{
 			printf("mutex init failed.\n");
 			return (-1);
