@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/21 18:30:18 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:34:46 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,7 @@ void	deinit_structs(t_state *state)
 	i = 0;
 	while (i < state->number_of_philosophers)
 	{
-		//if (pthread_mutex_trylock(&state->p_philos[i].mutex) == 0)
-		//{
-		//	pthread_mutex_unlock(&state->p_philos[i].mutex);
-			pthread_mutex_destroy(&state->p_philos[i].mutex);
-		//}
-		//if (pthread_mutex_trylock(&state->p_forks[i].mutex) == 0)
-		//{
-		//	pthread_mutex_unlock(&state->p_forks[i].mutex);
-			pthread_mutex_destroy(&state->p_forks[i].mutex);
-		//}
+		pthread_mutex_destroy(&state->p_philos[i].mutex);
 		i++;
 	}
 	pthread_mutex_unlock(state->p_print_mutex);
@@ -106,7 +97,7 @@ int	main(int argc, char **argv)
 	}
 	wait_for_threads(state, philo_threads);
 	deinit_structs(state);
-	detach_threads(state, philo_threads);
+	//detach_threads(state, philo_threads);
 	free(state);
 	free(philo_threads);
 	return (0);
