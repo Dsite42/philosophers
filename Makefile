@@ -6,23 +6,23 @@
 #    By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/18 15:39:27 by cgodecke          #+#    #+#              #
-#    Updated: 2023/07/20 10:40:45 by cgodecke         ###   ########.fr        #
+#    Updated: 2023/07/21 12:24:46 by cgodecke         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CC_FLAGS = -Wall -Wextra -g #-fsanitize=thread #-fsanitize=address #-Werror
 OBJDIR = obj
-HEADER := philo.h
-INFILES = 	main.c\
-			init.c\
-			init_arguments.c\
-			fill_state.c\
-			ft_atoi.c\
-			ft_wait.c\
-			philo_thread.c\
-			threads.c\
-			is_program_end.c\
+HEADER := src/philo.h
+INFILES = 	src/main.c\
+			src/init.c\
+			src/init_arguments.c\
+			src/fill_state.c\
+			src/ft_atoi.c\
+			src/ft_wait.c\
+			src/philo_thread.c\
+			src/threads.c\
+			src/is_program_end.c\
 
 
 OBJFILES = $(INFILES:%.c=$(OBJDIR)/%.o)
@@ -38,7 +38,7 @@ $(OBJDIR)/%.o: %.c
 	$(CC) $(CC_FLAGS) -c $< -o $@ -pthread
 
 setup:
-	@mkdir -p $(OBJDIR)/obj
+	@mkdir -p $(OBJDIR)/src
 
 clean:
 	rm -f $(OBJFILES)
