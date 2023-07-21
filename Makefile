@@ -6,12 +6,12 @@
 #    By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/18 15:39:27 by cgodecke          #+#    #+#              #
-#    Updated: 2023/07/21 13:13:25 by cgodecke         ###   ########.fr        #
+#    Updated: 2023/07/21 16:25:50 by cgodecke         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CC_FLAGS = -Wall -Wextra -g -fsanitize=address #-fsanitize=address #-Werror
+CC_FLAGS = -Wall -Wextra -g #-fsanitize=thread #-fsanitize=address #-Werror
 OBJDIR = obj
 HEADER := src/philo.h
 INFILES = 	src/main.c\

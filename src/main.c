@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/21 13:19:29 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/21 16:03:03 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,8 @@ int	main(int argc, char **argv)
 	{
 		ft_wait(9000);
 	}
+	wait_for_threads(state, philo_threads);
 	deinit_structs(state);
-	//if (wait_for_threads(state, philo_threads) == -1)
-	//	return (-1);
 	detach_threads(state, philo_threads);
 	free(state);
 	free(philo_threads);
