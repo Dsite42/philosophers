@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/21 12:40:57 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:19:29 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	is_valid_arguments(int argc, char **argv)
 		printf("No valid input. Please insert positive integers.\n");
 		return (-1);
 	}
-	if (argc == 6 && ft_atoi(argv[5]) < 0)
+	if (argc == 6 && ft_atoi(argv[5]) <= 0)
 	{
 		printf("No valid input. Please insert positive integers.\n");
 		return (-1);
@@ -87,9 +87,9 @@ int	main(int argc, char **argv)
 	t_state		*state;
 	pthread_t	*philo_threads;
 
-	if (check_number_of_arguments(argc) == -1 || is_valid_arguments2(argc, argv) == -1)
+	if (check_number_of_arguments(argc) == -1 || is_valid_arguments(argc, argv) == -1)
 		return (-1);
-	state = (t_state *) malloc(ft_atoi(argv[2]) * sizeof(t_state));
+	state = (t_state *) malloc(ft_atoi(argv[1]) * sizeof(t_state));
 	if (state == NULL)
 		return (printf("malloc of state failed.\n"), -1);
 	if (init(state, argc, argv) == -1)
