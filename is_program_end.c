@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:10:58 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/19 15:38:30 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/21 11:30:45 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,11 @@ static int	is_dead(t_state *state, struct timeval *tv,
 			- state[i].p_philos[i].last_meal
 			> (long long)state->time_to_die * (long long)1000)
 		{
+			pthread_mutex_unlock(&state[i].p_philos[i].mutex);
 			pthread_mutex_lock(state->p_print_mutex);
 			time_stamp = (long long)tv->tv_sec * (long long)1000000 
 				+ (long long)tv->tv_usec - state->start_time;
 			printf("%lli %i died\n", time_stamp / 1000, state[i].p_philos[i].id);
-			state[i].p_philos[i].death_flag = 1;
-			pthread_mutex_unlock(&state[i].p_philos[i].mutex);
 			return (1);
 		}
 		set_must_eat_reached(state, must_eat_reached, i);

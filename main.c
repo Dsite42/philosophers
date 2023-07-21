@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/19 15:30:55 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/21 11:33:06 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,21 @@ void	deinit_structs(t_state *state)
 	i = 0;
 	while (i < state->number_of_philosophers)
 	{
-		pthread_mutex_destroy(&state->p_philos[i].mutex);
-		pthread_mutex_destroy(&state->p_forks[i].mutex);
+		if (pthread_mutex_trylock(&state->p_philos[i].mutex) == 0)
+		{
+			pthread_mutex_unlock(&state->p_philos[i].mutex);
+			pthread_mutex_destroy(&state->p_philos[i].mutex);
+		}
+		if (pthread_mutex_trylock(&state->p_forks[i].mutex) == 0)
+		{
+			pthread_mutex_unlock(&state->p_forks[i].mutex);
+			pthread_mutex_destroy(&state->p_forks[i].mutex);
+		}
 		i++;
 	}
-	pthread_mutex_destroy(state->p_print_mutex);
 	free(state->p_philos);
 	free(state->p_forks);
 	free(state->p_print_mutex);
-	free(state);
 }
 
 static void	detach_threads(t_state *state, pthread_t *philo_threads)
@@ -80,8 +86,9 @@ int	main(int argc, char **argv)
 	{
 		ft_wait(9000);
 	}
-	detach_threads(state, philo_threads);
 	deinit_structs(state);
+	detach_threads(state, philo_threads);
+	free(state);
 	free(philo_threads);
 	return (0);
 	//if (wait_for_threads(state, philo_threads) == -1)
