@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/21 12:18:59 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/21 18:25:05 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,8 @@ int		init_arguments(t_state *state, int argc, char **argv);
 
 // is_program_end.c
 int		is_program_end(t_state *state);
+
+// print_state_change.c
+void	print_state_change(char *message, t_state *state);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:04:27 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/21 11:18:08 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/21 18:03:10 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@ int	init(t_state *state, int argc, char **argv)
 {
 	if (init_arguments(state, argc, argv) == -1 || init_structs(state) == -1)
 		return (-1);
+	if (init_print_mutex(state) == -1)
+		return (-1);
 	if (init_fork_mutexes(state) == -1)
 		return (-1);
 	if (init_philo_mutexes(state) == -1)
-		return (-1);
-	if (init_print_mutex(state) == -1)
 		return (-1);
 	return (1);
 }

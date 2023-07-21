@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/21 16:03:03 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/21 18:30:18 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,20 @@ void	deinit_structs(t_state *state)
 	i = 0;
 	while (i < state->number_of_philosophers)
 	{
-		if (pthread_mutex_trylock(&state->p_philos[i].mutex) == 0)
-		{
-			pthread_mutex_unlock(&state->p_philos[i].mutex);
+		//if (pthread_mutex_trylock(&state->p_philos[i].mutex) == 0)
+		//{
+		//	pthread_mutex_unlock(&state->p_philos[i].mutex);
 			pthread_mutex_destroy(&state->p_philos[i].mutex);
-		}
-		if (pthread_mutex_trylock(&state->p_forks[i].mutex) == 0)
-		{
-			pthread_mutex_unlock(&state->p_forks[i].mutex);
+		//}
+		//if (pthread_mutex_trylock(&state->p_forks[i].mutex) == 0)
+		//{
+		//	pthread_mutex_unlock(&state->p_forks[i].mutex);
 			pthread_mutex_destroy(&state->p_forks[i].mutex);
-		}
+		//}
 		i++;
 	}
+	pthread_mutex_unlock(state->p_print_mutex);
+	pthread_mutex_destroy(state->p_print_mutex);
 	free(state->p_philos);
 	free(state->p_forks);
 	free(state->p_print_mutex);
