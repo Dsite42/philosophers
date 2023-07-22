@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/21 18:27:05 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/22 12:52:19 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ void	*philo_thread(void *arg)
 	usleep(state->current_philo_id * 100);
 	while (1)
 	{
-		//if (am_i_dead(state))
-		//	pthread_exit(NULL);
 		print_state_change("is thinking", state);
+		if (state->number_of_philosophers == 1)
+			pthread_exit(NULL);
 		acquire_forks(state);
 		eating(state);
 		release_forks(state);

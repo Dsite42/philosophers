@@ -6,7 +6,7 @@
 #    By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/18 15:39:27 by cgodecke          #+#    #+#              #
-#    Updated: 2023/07/21 16:25:50 by cgodecke         ###   ########.fr        #
+#    Updated: 2023/07/22 12:40:44 by cgodecke         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ INFILES = 	src/main.c\
 			src/philo_thread.c\
 			src/threads.c\
 			src/is_program_end.c\
+			src/print_state_change.c\
 
 
 OBJFILES = $(INFILES:%.c=$(OBJDIR)/%.o)

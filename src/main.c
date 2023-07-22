@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/21 22:39:02 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/22 12:52:49 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int	main(int argc, char **argv)
 	t_state		*state;
 	pthread_t	*philo_threads;
 
-	if (check_number_of_arguments(argc) == -1 || is_valid_arguments(argc, argv) == -1)
+	if (check_number_of_arguments(argc) == -1 
+		|| is_valid_arguments(argc, argv) == -1)
 		return (-1);
 	state = (t_state *) malloc(ft_atoi(argv[1]) * sizeof(t_state));
 	if (state == NULL)
