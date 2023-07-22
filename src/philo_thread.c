@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/22 12:52:19 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/22 14:56:48 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,35 @@ static void	acquire_forks(t_state *state)
 		pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1) 
 			% state->number_of_philosophers].mutex);
 		print_state_change("has taken a fork", state);
-		pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
+		while (pthread_mutex_trylock(&state->p_forks[state->current_philo_id].mutex) != 0)
+		{
+			if (am_i_dead(state))
+			{
+				pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1) 
+			% state->number_of_philosophers].mutex);
+				pthread_exit(NULL);
+			}
+			usleep(100);
+		}
+		//pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
 		print_state_change("has taken a fork", state);
 	}
 	else
 	{
 		pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
 		print_state_change("has taken a fork", state);
-		pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1)
-			% state->number_of_philosophers].mutex);
+		while (pthread_mutex_trylock(&state->p_forks[(state->current_philo_id + 1)
+			% state->number_of_philosophers].mutex) != 0)
+		{
+			if (am_i_dead(state))
+			{
+				pthread_mutex_unlock(&state->p_forks[state->current_philo_id].mutex);
+				pthread_exit(NULL);
+			}
+			usleep(100);
+		}
+		//pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1)
+		//	% state->number_of_philosophers].mutex);
 		print_state_change("has taken a fork", state);
 	}
 }
@@ -72,7 +92,7 @@ void	*philo_thread(void *arg)
 	t_state			*state;
 
 	state = (t_state *)arg;
-	usleep(state->current_philo_id * 100);
+	usleep(state->current_philo_id * 1);
 	while (1)
 	{
 		print_state_change("is thinking", state);

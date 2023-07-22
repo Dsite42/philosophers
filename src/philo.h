@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/21 18:25:05 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/22 14:40:33 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ int		is_program_end(t_state *state);
 
 // print_state_change.c
 void	print_state_change(char *message, t_state *state);
+int		am_i_dead(t_state *state);
 
 #endif

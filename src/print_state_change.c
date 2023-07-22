@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:24:24 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/21 21:17:30 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/22 14:39:57 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static int	am_i_dead(t_state *state)
+int	am_i_dead(t_state *state)
 {
 	struct timeval	tv;
 
