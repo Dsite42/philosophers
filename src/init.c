@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:04:27 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/23 14:32:09 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:51:42 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,17 @@ static int	init_print_mutex(t_state *state)
 	return (0);
 }
 
+static int	init_dead_mutex(t_state *state)
+{
+	if (pthread_mutex_init(&state->p_dead->mutex, NULL) != 0)
+	{
+		printf("mutex init failed.\n");
+		return (-1);
+	}
+	return (0);
+}
+
+
 int	init(t_state *state, int argc, char **argv)
 {
 	if (init_arguments(state, argc, argv) == -1 || init_structs(state) == -1)
@@ -89,6 +100,8 @@ int	init(t_state *state, int argc, char **argv)
 	if (init_fork_mutexes(state) == -1)
 		return (-1);
 	if (init_philo_mutexes(state) == -1)
+		return (-1);
+	if (init_dead_mutex(state) == -1)
 		return (-1);
 	return (1);
 }
