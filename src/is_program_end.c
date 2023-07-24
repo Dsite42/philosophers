@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:10:58 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/24 13:56:21 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:43:52 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ static int	is_must_eat_reached(t_state *state, int *must_eat_reached)
 	if (state->number_of_times_each_philosopher_must_eat != 0
 		&& *must_eat_reached == 1)
 	{
-		pthread_mutex_lock(state->p_print_mutex);
+		//pthread_mutex_lock(state->p_print_mutex);
+		pthread_mutex_lock(&state->p_dead->mutex);
+		state->p_dead->dead = 1;
+		pthread_mutex_unlock(&state->p_dead->mutex);
 		return (1);
 	}
 	return (0);
