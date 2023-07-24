@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:24:24 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/24 12:25:20 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/24 13:28:51 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ void	print_state_change(char *message, t_state *state)
 	struct timeval	tv;
 	long long		time_stamp;
 
-	pthread_mutex_lock(state->p_print_mutex);
+	//pthread_mutex_lock(state->p_print_mutex);
 	gettimeofday(&tv, NULL);
 	time_stamp = (long long)tv.tv_sec
 		* (long long)1000000 + (long long)tv.tv_usec - state->start_time;
 	printf("%lli %i %s\n", time_stamp / 1000,
 		state->current_philo_id + 1, message);
-	pthread_mutex_unlock(state->p_print_mutex);
+	//pthread_mutex_unlock(state->p_print_mutex);
 	pthread_mutex_unlock(&state->p_dead->mutex);
 
 }
