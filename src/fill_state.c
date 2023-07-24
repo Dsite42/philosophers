@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:54:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/24 14:55:12 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:03:36 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	fill_state(t_state *state)
 		(*state).p_philos[i].eat_counter = 0;
 		(*state).p_forks[i].id = i + 1;
 		(*state).current_philo_id = 0;
+		(*state).p_dead->dead = 0;
 		(*state).start_time = (long long)tv.tv_sec
 			* (long long)1000000 + (long long)tv.tv_usec;
 		(*state).p_philos[i].last_meal = state->start_time;
