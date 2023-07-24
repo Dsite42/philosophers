@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:04:27 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/24 14:51:42 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:54:25 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@ static int	init_structs(t_state *state)
 		malloc(state->number_of_philosophers * sizeof(t_fork));
 	if ((*state).p_forks == NULL)
 		return (printf("malloc of p_forks failed.\n"), -1);
-	(*state).p_print_mutex = (pthread_mutex_t *)
-		malloc(sizeof(pthread_mutex_t));
-	if ((*state).p_print_mutex == NULL)
-		return (printf("malloc of print_mutex failed.\n"), -1);
 	(*state).p_dead = (t_dead *)malloc(sizeof(t_dead));
 	if ((*state).p_dead == NULL)
 		return (printf("malloc of p_dead failed.\n"), -1);
@@ -70,16 +66,6 @@ static int	init_philo_mutexes(t_state *state)
 	return (0);
 }
 
-static int	init_print_mutex(t_state *state)
-{
-	if (pthread_mutex_init(state->p_print_mutex, NULL) != 0)
-	{
-		printf("mutex init failed.\n");
-		return (-1);
-	}
-	return (0);
-}
-
 static int	init_dead_mutex(t_state *state)
 {
 	if (pthread_mutex_init(&state->p_dead->mutex, NULL) != 0)
@@ -90,12 +76,9 @@ static int	init_dead_mutex(t_state *state)
 	return (0);
 }
 
-
 int	init(t_state *state, int argc, char **argv)
 {
 	if (init_arguments(state, argc, argv) == -1 || init_structs(state) == -1)
-		return (-1);
-	if (init_print_mutex(state) == -1)
 		return (-1);
 	if (init_fork_mutexes(state) == -1)
 		return (-1);

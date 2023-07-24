@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:54:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/23 14:32:57 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:55:12 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	fill_further_states(t_state *state)
 			= state->number_of_times_each_philosopher_must_eat;
 		state[i].p_philos = state->p_philos;
 		state[i].p_forks = state->p_forks;
-		state[i].p_print_mutex = state->p_print_mutex;
 		state[i].p_dead = state->p_dead;
 		state[i].current_philo_id = i;
 		state[i].start_time = state->start_time;

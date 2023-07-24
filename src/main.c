@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/24 13:16:36 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:55:00 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,9 @@ void	deinit_structs(t_state *state)
 		pthread_mutex_destroy(&state->p_philos[i].mutex);
 		i++;
 	}
-//	pthread_mutex_unlock(state->p_print_mutex);
-	pthread_mutex_destroy(state->p_print_mutex);
 	pthread_mutex_destroy(&state->p_dead->mutex);
 	free(state->p_philos);
 	free(state->p_forks);
-	free(state->p_print_mutex);
 	free(state->p_dead);
 }
 
