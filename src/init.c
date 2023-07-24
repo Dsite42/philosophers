@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:04:27 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/21 18:03:10 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/23 14:32:09 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,18 @@ static int	init_structs(t_state *state)
 	(*state).p_philos = (t_philosopher *)
 		malloc((state->number_of_philosophers) * sizeof(t_philosopher));
 	if ((*state).p_philos == NULL)
-	{
-		printf("malloc of p_philos failed.\n");
-		return (-1);
-	}
+		return (printf("malloc of p_philos failed.\n"), -1);
 	(*state).p_forks = (t_fork *)
 		malloc(state->number_of_philosophers * sizeof(t_fork));
 	if ((*state).p_forks == NULL)
-	{
-		printf("malloc of p_forks failed.\n");
-		return (-1);
-	}
+		return (printf("malloc of p_forks failed.\n"), -1);
 	(*state).p_print_mutex = (pthread_mutex_t *)
 		malloc(sizeof(pthread_mutex_t));
 	if ((*state).p_print_mutex == NULL)
-	{
-		printf("malloc of print_mutex failed.\n");
-		return (-1);
-	}
+		return (printf("malloc of print_mutex failed.\n"), -1);
+	(*state).p_dead = (t_dead *)malloc(sizeof(t_dead));
+	if ((*state).p_dead == NULL)
+		return (printf("malloc of p_dead failed.\n"), -1);
 	fill_state(state);
 	return (0);
 }

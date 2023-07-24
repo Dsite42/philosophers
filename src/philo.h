@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/22 14:40:33 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/24 11:21:14 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ typedef struct s_fork
 
 }	t_fork;
 
+typedef struct s_dead
+{
+	int				dead;
+	pthread_mutex_t	mutex;
+
+}	t_dead;
+
 typedef struct s_state
 {
 	int				number_of_philosophers;
@@ -42,6 +49,7 @@ typedef struct s_state
 	t_philosopher	*p_philos;
 	t_fork			*p_forks;
 	pthread_mutex_t	*p_print_mutex;
+	t_dead			*p_dead;
 	int				current_philo_id;
 	long long		start_time;
 }	t_state;
@@ -72,8 +80,14 @@ int		init_arguments(t_state *state, int argc, char **argv);
 // is_program_end.c
 int		is_program_end(t_state *state);
 
+// philo_thread.c
+void	release_forks(t_state *state);
+
 // print_state_change.c
 void	print_state_change(char *message, t_state *state);
 int		am_i_dead(t_state *state);
+void	print_state_change(char *message, t_state *state);
+void	print_first_fork(char *message, t_state *state, int first_fork);
+void	print_second_fork(char *message, t_state *state, int first_fork, int second_fork);
 
 #endif
