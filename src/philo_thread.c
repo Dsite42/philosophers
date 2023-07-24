@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/24 14:43:09 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:51:08 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,59 +25,6 @@ int	is_dead_flag(t_state *state)
 		return (1);
 	}
 	return (0);
-}
-
-static void	aquire_forks_last_philo(t_state *state)
-{
-	pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1)
-		% state->number_of_philosophers].mutex);
-	if (is_dead_flag(state) == 0)
-		print_state_change("has taken a fork", state);
-	else
-	{
-		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1)
-			% state->number_of_philosophers].mutex);
-		pthread_exit(NULL);
-	}
-	pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
-	if (is_dead_flag(state) == 0)
-		print_state_change("has taken a fork", state);
-	else
-	{
-		pthread_mutex_unlock(&state->p_forks[state->current_philo_id].mutex);
-		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1)
-			% state->number_of_philosophers].mutex);
-		pthread_exit(NULL);
-	}
-}
-
-// To avoid deadlock, the first philosopher has to pick up the right fork first
-static void	acquire_forks(t_state *state)
-{
-	if (state->current_philo_id + 1 == state->number_of_philosophers)
-		aquire_forks_last_philo(state);
-	else
-	{
-		pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
-		if (is_dead_flag(state) == 0)
-			print_state_change("has taken a fork", state);
-		else
-		{
-			pthread_mutex_unlock(&state->p_forks[state->current_philo_id].mutex);
-			pthread_exit(NULL);
-		}
-		pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1)
-			% state->number_of_philosophers].mutex);
-		if (is_dead_flag(state) == 0)
-			print_state_change("has taken a fork", state);
-		else
-		{
-			pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1)
-				% state->number_of_philosophers].mutex);
-			pthread_mutex_unlock(&state->p_forks[state->current_philo_id].mutex);
-			pthread_exit(NULL);
-		}
-	}
 }
 
 static void	eating(t_state *state)
@@ -99,23 +46,6 @@ static void	eating(t_state *state)
 	}
 	ft_wait(state->time_to_eat * 1000);
 }
-
-void	release_forks(t_state *state)
-{
-	if (state->current_philo_id + 1 == state->number_of_philosophers)
-	{
-		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1)
-			% state->number_of_philosophers].mutex);
-		pthread_mutex_unlock(&state->p_forks[state->current_philo_id].mutex);
-	}
-	else
-	{
-		pthread_mutex_unlock(&state->p_forks[state->current_philo_id].mutex);
-		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1)
-			% state->number_of_philosophers].mutex);	
-	}
-}
-
 
 void	*philo_thread(void *arg)
 {

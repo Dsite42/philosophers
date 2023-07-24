@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 14:10:58 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/24 14:53:22 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:42:41 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	is_must_eat_reached(t_state *state, int *must_eat_reached)
 	if (state->number_of_times_each_philosopher_must_eat != 0
 		&& *must_eat_reached == 1)
 	{
-		//pthread_mutex_lock(state->p_print_mutex);
 		pthread_mutex_lock(&state->p_dead->mutex);
 		state->p_dead->dead = 1;
 		pthread_mutex_unlock(&state->p_dead->mutex);
@@ -53,8 +52,8 @@ static int	is_dead(t_state *state, struct timeval *tv,
 			time_stamp = (long long)tv->tv_sec * (long long)1000000
 				+ (long long)tv->tv_usec - state->start_time;
 			printf("%lli %i died\n", time_stamp / 1000, state[i].p_philos[i].id);
-//			printf("%lli %i died last_meal:%llu diff:%llu\n", time_stamp / 1000, state[i].p_philos[i].id, (state[i].p_philos[i].last_meal - state->start_time) / 1000, (long long)((long long)((long long)tv->tv_sec * (long long)1000000 + (long long)tv->tv_usec) - state[i].p_philos[i].last_meal) / (long long)1000);
-//printf("philo%i eaten:%i philo%i eaten:%i philo%i eaten:%i philo%i eaten:%i philo%i eaten:%i", state->p_philos[0].id, state->p_philos[0].eat_counter, state->p_philos[1].id, state->p_philos[1].eat_counter, state->p_philos[2].id, state->p_philos[2].eat_counter, state->p_philos[3].id, state->p_philos[3].eat_counter, state->p_philos[4].id, state->p_philos[4].eat_counter);
+			printf("%lli %i died last_meal:%llu diff:%llu\n", time_stamp / 1000, state[i].p_philos[i].id, (state[i].p_philos[i].last_meal - state->start_time) / 1000, (long long)((long long)((long long)tv->tv_sec * (long long)1000000 + (long long)tv->tv_usec) - state[i].p_philos[i].last_meal) / (long long)1000);
+printf("philo%i eaten:%i philo%i eaten:%i philo%i eaten:%i philo%i eaten:%i philo%i eaten:%i", state->p_philos[0].id, state->p_philos[0].eat_counter, state->p_philos[1].id, state->p_philos[1].eat_counter, state->p_philos[2].id, state->p_philos[2].eat_counter, state->p_philos[3].id, state->p_philos[3].eat_counter, state->p_philos[4].id, state->p_philos[4].eat_counter);
 			pthread_mutex_unlock(&state->p_dead->mutex);
 			pthread_mutex_unlock(&state[i].p_philos[i].mutex);
 			return (1);

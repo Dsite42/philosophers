@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/24 14:53:54 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:51:52 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,14 @@ int		init_arguments(t_state *state, int argc, char **argv);
 int		is_program_end(t_state *state);
 
 // philo_thread.c
-void	release_forks(t_state *state);
+int		is_dead_flag(t_state *state);
 
 // print_state_change.c
 void	print_state_change(char *message, t_state *state);
-int		am_i_dead(t_state *state);
 void	print_state_change(char *message, t_state *state);
-void	print_first_fork(char *message, t_state *state, int first_fork);
-void	print_second_fork(char *message, t_state *state, int first_fork, int second_fork);
+
+// forks.c
+void	acquire_forks(t_state *state);
+void	release_forks(t_state *state);
 
 #endif
