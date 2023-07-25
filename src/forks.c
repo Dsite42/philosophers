@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:49:09 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/24 16:51:46 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:42:05 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,12 @@
 
 static void	aquire_forks_last_philo(t_state *state)
 {
-	pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1)
-		% state->number_of_philosophers].mutex);
-	if (is_dead_flag(state) == 0)
-		print_state_change("has taken a fork", state);
-	else
-	{
-		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1)
-			% state->number_of_philosophers].mutex);
-		pthread_exit(NULL);
-	}
 	pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
 	if (is_dead_flag(state) == 0)
 		print_state_change("has taken a fork", state);
 	else
 	{
 		pthread_mutex_unlock(&state->p_forks[state->current_philo_id].mutex);
-		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1)
-			% state->number_of_philosophers].mutex);
-		pthread_exit(NULL);
-	}
-}
-
-static void	quire_forks_without_last(t_state *state)
-{
-	pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
-	if (is_dead_flag(state) == 0)
-		print_state_change("has taken a fork", state);
-	else
-	{
-		pthread_mutex_unlock(
-			&state->p_forks[state->current_philo_id].mutex);
 		pthread_exit(NULL);
 	}
 	pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1)
@@ -55,8 +30,32 @@ static void	quire_forks_without_last(t_state *state)
 	{
 		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1)
 			% state->number_of_philosophers].mutex);
+		pthread_mutex_unlock(&state->p_forks[state->current_philo_id].mutex);
+		pthread_exit(NULL);
+	}
+}
+
+static void	quire_forks_without_last(t_state *state)
+{
+	pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1)
+		% state->number_of_philosophers].mutex);
+	if (is_dead_flag(state) == 0)
+		print_state_change("has taken a fork", state);
+	else
+	{
+		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1)
+			% state->number_of_philosophers].mutex);
+		pthread_exit(NULL);
+	}
+	pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
+	if (is_dead_flag(state) == 0)
+		print_state_change("has taken a fork", state);
+	else
+	{
 		pthread_mutex_unlock(
 			&state->p_forks[state->current_philo_id].mutex);
+		pthread_mutex_unlock(&state->p_forks[(state->current_philo_id + 1)
+			% state->number_of_philosophers].mutex);
 		pthread_exit(NULL);
 	}
 }
