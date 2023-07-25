@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:49:09 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/25 19:21:12 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/25 19:54:03 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int	quire_forks_without_last(t_state *state)
 	}
 	return (1);
 }
+
 static int	aquire_forks_last_philo(t_state *state)
 {
 	pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1)
