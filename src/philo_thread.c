@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/24 16:51:08 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/25 13:15:32 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,30 @@ int	is_dead_flag(t_state *state)
 	return (0);
 }
 
+static int	am_i_dead(t_state *state, struct timeval *tv)
+{
+	if (((long long)tv->tv_sec * 1000000LL + (long long)tv->tv_usec)
+		- state->p_philos[state->current_philo_id].last_meal
+		> (long long)state->time_to_die * (long long)1000)
+		return (1);
+	return (0);
+}
+
 static void	eating(t_state *state)
 {
 	struct timeval	tv;
 
 	pthread_mutex_lock(&state->p_philos[state->current_philo_id].mutex);
 	gettimeofday(&tv, NULL);
+	if (am_i_dead(state, &tv) == 1)
+	{
+		pthread_mutex_lock(&state->p_dead->mutex);
+		state->p_dead->dead = 1;
+		pthread_mutex_unlock(&state->p_dead->mutex);
+		release_forks(state);
+		pthread_mutex_unlock(&state->p_philos[state->current_philo_id].mutex);
+		return ;
+	}
 	(*state).p_philos[state->current_philo_id].last_meal
 		= (long long)tv.tv_sec * (long long)1000000 + (long long)tv.tv_usec;
 	(*state).p_philos[state->current_philo_id].eat_counter++;
@@ -52,7 +70,8 @@ void	*philo_thread(void *arg)
 	t_state			*state;
 
 	state = (t_state *)arg;
-	usleep(state->current_philo_id * 1);
+	if (state->current_philo_id % 2 == 0)
+		ft_wait(state->time_to_eat / 2 * 1000);
 	while (1)
 	{
 		if (is_dead_flag(state) == 0)
