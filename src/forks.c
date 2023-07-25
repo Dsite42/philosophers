@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:49:09 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/25 11:42:05 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:19:51 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	release_forks(t_state *state)
 void	acquire_forks(t_state *state)
 {
 	if (state->current_philo_id + 1 == state->number_of_philosophers)
-		aquire_forks_last_philo(state);
+		quire_forks_without_last(state);
 	else
 		quire_forks_without_last(state);
 }
