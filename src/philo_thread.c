@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/25 16:46:08 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/25 19:38:10 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	eating(t_state *state)
 	else
 	{
 		release_forks(state);
-		pthread_exit(NULL);
+		return (0);
 	}
 	ft_wait(state->time_to_eat * 1000);
 	return (1);
@@ -78,20 +78,23 @@ void	*philo_thread(void *arg)
 		if (is_dead_flag(state) == 0)
 			print_state_change("is thinking", state);
 		else
-			pthread_exit(NULL);
+			return (NULL);
 		if (state->number_of_philosophers == 1)
-			pthread_exit(NULL);
-		acquire_forks(state);
+			return (NULL);
+		if (acquire_forks(state) == 0)
+			return (NULL);
 		if (eating(state) == 1)
 			release_forks(state);
+		else
+			return (NULL);
 		if (is_dead_flag(state) == 0)
 			print_state_change("is sleeping", state);
 		else
-			pthread_exit(NULL);
+			return (NULL);
 		ft_wait(state->time_to_sleep * 1000);
 		if (state->number_of_philosophers % 2 == 1 && state->current_philo_id % 2 == 0)
 			usleep(state->time_to_eat / 2 * 1000);
 			//ft_wait(state->time_to_eat / 2 * 1000);
 	}
-	pthread_exit(NULL);
+	return (NULL);
 }

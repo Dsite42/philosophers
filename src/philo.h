@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/24 16:51:52 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/25 19:23:47 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	print_state_change(char *message, t_state *state);
 void	print_state_change(char *message, t_state *state);
 
 // forks.c
-void	acquire_forks(t_state *state);
+int		acquire_forks(t_state *state);
 void	release_forks(t_state *state);
 
 #endif
