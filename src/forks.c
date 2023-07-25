@@ -6,13 +6,13 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:49:09 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/25 13:11:16 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:23:50 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	aquire_forks_last_philo(t_state *state)
+static void	quire_forks_without_last(t_state *state)
 {
 	pthread_mutex_lock(&state->p_forks[state->current_philo_id].mutex);
 	if (is_dead_flag(state) == 0)
@@ -34,8 +34,7 @@ static void	aquire_forks_last_philo(t_state *state)
 		pthread_exit(NULL);
 	}
 }
-
-static void	quire_forks_without_last(t_state *state)
+static void	aquire_forks_last_philo(t_state *state)
 {
 	pthread_mutex_lock(&state->p_forks[(state->current_philo_id + 1)
 		% state->number_of_philosophers].mutex);
@@ -79,8 +78,8 @@ void	release_forks(t_state *state)
 // To avoid deadlock, the first philosopher has to pick up the right fork first
 void	acquire_forks(t_state *state)
 {
-	if (state->current_philo_id + 1 == state->number_of_philosophers)
+	if (state->current_philo_id % 2 == 0)
 		quire_forks_without_last(state);
 	else
-		quire_forks_without_last(state);
+		aquire_forks_last_philo(state);
 }
