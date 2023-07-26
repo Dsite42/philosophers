@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/25 19:54:12 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/26 11:34:22 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,8 @@ void	release_forks(t_state *state);
 // dead.c
 int		am_i_dead(t_state *state, struct timeval *tv);
 int		is_dead_flag(t_state *state);
+
+// thinking.c
+void	thinking(t_state *state);
 
 #endif

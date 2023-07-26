@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/25 19:52:04 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/26 11:34:01 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,30 +53,15 @@ static int	eating(t_state *state)
 	return (1);
 }
 
-void	ft_sleep(t_state *state)
-{
-	ft_wait(state->time_to_sleep * 1000);
-	if (state->number_of_philosophers % 2 == 1
-		&& state->current_philo_id % 2 == 0)
-		usleep(state->time_to_eat / 2 * 1000);
-}
-
-void	odd_wait(t_state *state)
-{
-	if (state->current_philo_id % 2 == 1)
-		ft_wait(state->time_to_eat / 2 * 1000);
-}
-
 void	*philo_thread(void *arg)
 {
 	t_state			*state;
 
 	state = (t_state *)arg;
-	odd_wait(state);
 	while (1)
 	{
 		if (is_dead_flag(state) == 0)
-			print_state_change("is thinking", state);
+			thinking(state);
 		else
 			return (NULL);
 		if (state->number_of_philosophers == 1)
@@ -91,7 +76,7 @@ void	*philo_thread(void *arg)
 			print_state_change("is sleeping", state);
 		else
 			return (NULL);
-		ft_sleep(state);
+		ft_wait(state->time_to_sleep * 1000);
 	}
 	return (NULL);
 }
