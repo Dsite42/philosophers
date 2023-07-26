@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:58:33 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/24 16:53:02 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/26 12:24:16 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,34 @@ int	check_number_of_arguments(int argc)
 	return (0);
 }
 
+int	is_digits(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] < 48 || str[i] > 57)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	is_valid_arguments(int argc, char **argv)
 {
 	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[2]) <= 0
-		|| ft_atoi(argv[3]) <= 0 || ft_atoi(argv[4]) <= 0)
+		|| ft_atoi(argv[3]) <= 0 || ft_atoi(argv[4]) <= 0
+		|| is_digits(argv[1]) == 0 || is_digits(argv[2]) == 0
+		|| is_digits(argv[3]) == 0 || is_digits(argv[4]) == 0)
 	{
 		printf("No valid input. Please insert positive integers.\n");
 		return (-1);
 	}
-	if (argc == 6 && ft_atoi(argv[5]) <= 0)
+	if (argc == 6 && (ft_atoi(argv[5]) <= 0 || is_digits(argv[5]) == 0))
 	{
-		printf("No valid input. Please insert positive integers.\n");
+		printf("No valid input. Please insert\
+ positive integers higher then 0.\n");
 		return (-1);
 	}
 	return (0);
