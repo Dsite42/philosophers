@@ -6,7 +6,7 @@
 #    By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/18 15:39:27 by cgodecke          #+#    #+#              #
-#    Updated: 2023/07/25 19:53:09 by cgodecke         ###   ########.fr        #
+#    Updated: 2023/07/26 11:57:36 by cgodecke         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ INFILES = 	src/main.c\
 			src/print_state_change.c\
 			src/forks.c\
 			src/dead.c\
+			src/thinking.c\
 
 
 OBJFILES = $(INFILES:%.c=$(OBJDIR)/%.o)

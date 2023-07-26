@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:10:57 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/26 11:34:01 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/26 12:06:07 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ static int	eating(t_state *state)
 		return (0);
 	(*state).p_philos[state->current_philo_id].last_meal
 		= (long long)tv.tv_sec * (long long)1000000 + (long long)tv.tv_usec;
+	if ((*state).p_philos[state->current_philo_id].last_meal - state->start_time
+		< state->time_to_eat / 2 * 1000)
+		(*state).p_philos[state->current_philo_id].last_meal
+			= state->start_time;
 	(*state).p_philos[state->current_philo_id].eat_counter++;
 	pthread_mutex_unlock(&state->p_philos[state->current_philo_id].mutex);
 	if (is_dead_flag(state) == 0)
