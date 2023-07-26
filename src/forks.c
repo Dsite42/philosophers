@@ -6,7 +6,7 @@
 /*   By: cgodecke <cgodecke@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:49:09 by cgodecke          #+#    #+#             */
-/*   Updated: 2023/07/25 19:54:03 by cgodecke         ###   ########.fr       */
+/*   Updated: 2023/07/26 16:46:10 by cgodecke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	release_forks(t_state *state)
 	}
 }
 
-// To avoid deadlock, the first philosopher has to pick up the right fork first
 int	acquire_forks(t_state *state)
 {
 	if (state->current_philo_id % 2 == 0)
